@@ -1,0 +1,290 @@
+---
+title: "analisis_datos_experimentales_arduino"
+author: "John Erick Castro"
+format: html
+editor: visual
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(reshape2)
+library(tidyr)
+
+
+
+
+```
+
+Cargamos los datos
+
+```{r}
+camilo<-read.csv("camilo.csv")
+jhon_erick<-read.csv("jhon_erick.csv")
+juan_felipe<-read.csv("juan_felipe.csv")
+july_andrea<-read.csv("july_andrea.csv")
+kenneth<-read.csv("kenneth.csv")
+laura_1<-read.csv("laura_1.csv")
+laura_2<-read.csv("laura_2.csv")
+sebastian<-read.csv("sebastian.csv")
+valentina_1<-read.csv("Valentina_1.csv")
+esteban<-read.csv2("esteban.csv")
+```
+
+Exploramos uno de los datos
+
+```{r}
+plot(camilo, type="l")
+```
+
+```{r}
+camilo$timestamp[nrow(camilo)]
+```
+
+```{r}
+
+camilo$timestamp[nrow(camilo)] - camilo$timestamp[1]
+```
+
+```{r}
+(camilo$timestamp[nrow(camilo)]-camilo$timestamp[1])/60000
+
+
+```
+
+Exploramos la distribución de los datos
+
+```{r}
+hist(camilo$DecibelSource)
+```
+
+```{r}
+with(camilo, plot(timestamp, DecibelSource, type = "l"))
+```
+
+Cargamos las coordenadas
+
+```{r}
+coordenadas<-read.csv("coordenadas (2).csv")
+names(coordenadas)
+```
+
+```{r}
+coordenadas$y<-as.numeric(gsub(",", ".", coordenadas$y))
+coordenadas
+```
+
+Graficamos las coordenadas
+
+```{r}
+with(coordenadas, plot(x,y, 
+                       xlim = c(0,600),
+                       ylim = c(0,120),
+                       type = "n"))
+with(coordenadas, text(x,y, labels = Nombre))
+```
+
+como la función dist dá media matriz, entonces generamos la matriz completa y la convertimos a dataframe. LO primero se hace con la librería "reshape2".
+
+```{r}
+distancias<-dist(coordenadas[,-1])
+distancias<-melt(as.matrix(distancias), varnames = c("Name1", "Name2"))
+distancias<-as.data.frame(distancias)
+distancias
+```
+
+dado que se generó a partir de la matriz de distancias un data frame con combinaciones repetidas, entones mediante la función "unique" generamos una unica combinación de filas (argumento 1) de manera ordenada con el argumento "sort". POsteriormente se renombran las columnas. Dado que en la combinación se incluyó el cero, tambien se eliminó generando un subset de datos.
+
+```{r}
+distancias <- unique(t(apply(distancias, 1, sort)))
+distancias
+distancias<-as.data.frame(distancias)
+distancias
+colnames(distancias)[2]="Name2"
+colnames(distancias)[1]="Name1"
+colnames(distancias)[3]="distancia"
+distancias<-distancias[-1,]
+
+##eliminamos los ceros generados 
+distancias<-subset(distancias, Name1!=0)
+distancias
+```
+
+Dado que en la generación de la matriz los items quedaron como número, entonces se convierte a caracter y se reasigna el nombre correspondiente a cada número, ya que cada número corresponde al item organizado dentro del dataframe.
+
+```{r message=FALSE, warning=FALSE}
+distancias$Name1<-as.character(distancias$Name1)
+distancias$Name2<-as.character(distancias$Name2)
+
+distancias$Name1[distancias$Name1 =="1"]<-"sebastian"
+distancias$Name1[distancias$Name1 =="2"]<-"Esteban"
+distancias$Name1[distancias$Name1 =="3"]<-"Jhon_erick"
+distancias$Name1[distancias$Name1 =="4"]<-"july_andrea"
+distancias$Name1[distancias$Name1 =="5"]<-"camilo"
+distancias$Name1[distancias$Name1 =="6"]<-"kenneth"
+distancias$Name1[distancias$Name1 =="7"]<-"laura_1"
+distancias$Name1[distancias$Name1 =="8"]<-"laura2"
+distancias$Name1[distancias$Name1 =="9"]<-"juan_felipe"
+distancias$Name1[distancias$Name1 =="10"]<-"valentina_1"
+distancias$Name2[distancias$Name2 =="1"]<-"sebastian"
+distancias$Name2[distancias$Name2 =="2"]<-"Esteban"
+distancias$Name2[distancias$Name2 =="3"]<-"Jhon_erick"
+distancias$Name2[distancias$Name2 =="4"]<-"july_andrea"
+distancias$Name2[distancias$Name2 =="5"]<-"camilo"
+distancias$Name2[distancias$Name2 =="6"]<-"kenneth"
+distancias$Name2[distancias$Name2 =="7"]<-"laura_1"
+distancias$Name2[distancias$Name2 =="8"]<-"laura2"
+distancias$Name2[distancias$Name2 =="9"]<-"juan_felipe"
+distancias$Name2[distancias$Name2 =="10"]<-"valentina_1"
+distancias
+```
+
+Eliminamos las milesimas de segundos
+
+```{r message=FALSE, warning=FALSE}
+camilo<-camilo %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+jhon_erick<-jhon_erick %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+juan_felipe<-juan_felipe %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+july_andrea<-july_andrea%>%
+  mutate(timestamp1 =trunc(timestamp/1000))
+kenneth<-kenneth %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+laura_1<-laura_1 %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+laura_2<-laura_2 %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+sebastian<-sebastian %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+valentina_1<-valentina_1 %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+esteban<-esteban %>%
+  mutate(timestamp1 = trunc(timestamp/1000))
+```
+
+```{r}
+length(unique(camilo$timestamp1))
+```
+
+generamos la columna de fecha en formato fecha y hora
+
+```{r message=FALSE, warning=FALSE}
+camilo1<- camilo %>%
+  group_by(timestamp1) %>%
+  summarise(camilo = mean(DecibelSource, na.rm=TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+jhon_erick1<-jhon_erick %>%
+  group_by(timestamp1) %>%
+  summarise(jhon_erick = mean(DecibelSource, na.rm = TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+juan_felipe1<-juan_felipe %>%
+  group_by(timestamp1) %>%
+  summarise(juan_felipe = mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+july_andrea1<-july_andrea %>%
+  group_by(timestamp1) %>%
+  summarise(july_andrea = mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+kenneth1<-kenneth %>%
+  group_by(timestamp1) %>%
+  summarise(kenneth= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+laura_11<-laura_1 %>%
+  group_by(timestamp1) %>%
+  summarise(laura_1= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+laura22<-laura_2 %>%
+  group_by(timestamp1) %>%
+  summarise(laura2= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+sebastian1<-sebastian %>%
+  group_by(timestamp1) %>%
+  summarise(sebastian= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+valentina11<-valentina_1 %>%
+  group_by(timestamp1) %>%
+  summarise(valentina_1= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01"))
+esteban1<-esteban %>%
+  group_by(timestamp1) %>%
+  summarise(esteban= mean(DecibelSource, na.rm =TRUE))%>%
+  mutate(fecha=as.POSIXct(timestamp1, origin = "1970-01-01")) 
+```
+
+Unificamos todas las bases de datos a partir de la fecha
+
+```{r message=FALSE, warning=FALSE}
+total<-camilo1%>%
+  inner_join(valentina11)%>%
+  inner_join(kenneth1)%>%
+  inner_join(juan_felipe1)%>%
+  inner_join(sebastian1)%>%
+  inner_join(laura_11)%>%
+  inner_join(laura22)%>%
+  inner_join(july_andrea1)
+total
+```
+
+```{r}
+total<-total[, c(1,3,2,4,5,6,7,8,9,10)]
+total 
+```
+
+```{r}
+correla<-cor(total[, 3:10])
+correla
+```
+
+Al igual que la matriz de distancias, convertimos la matriz de correlación como matriz (por defecto la convirtió a dataframee)
+
+```{r}
+correla<-melt(as.matrix(correla), varnames = c("Name1", "Name2"))
+correla$Name1<-as.character(correla$Name1)
+correla$Name2<-as.character(correla$Name2)
+correla
+```
+
+Unimos los nombres en la medida que índiquen la interacción entre si (cabe resaltar que quedan los items, es decir los nombres repetidos que más adelante se eliminarań cuando se únifiquen la matriz de distancias y de correlación)
+
+```{r}
+correla<-correla%>%
+  unite('par_nombres', Name1:Name2, remove = FALSE)
+correla
+```
+
+AL igual que en la matriz de correlación, unimos los nombres en la medida de la interacción entre si
+
+```{r}
+distancias<-distancias%>%
+  unite('par_nombres', Name1:Name2, remove = FALSE)
+distancias
+```
+
+Unimos las matrices en función de unir los mismos nombres (los cuales son las interacciones entre si)
+
+```{r}
+correla_distancias<-merge(x = distancias, y = correla, by = "par_nombres")
+correla_distancias
+```
+
+ELiminamos las columnas de más que se generaron en la unión (merge)
+
+```{r}
+correla_distancias<-correla_distancias[, -c(2,3,5,6)]
+correla_distancias
+colnames(correla_distancias)[2]="distancia"
+colnames(correla_distancias)[3]="correlacion"
+correla_distancias$distancia<-as.numeric(correla_distancias$distancia)
+correla_distancias$correlacion<-as.numeric(correla_distancias$correlacion)
+```
+
+Finalmente graficamos. De acuerdo con lo observado, se aprecia una tendencia exponencial negativa. Sin embargo, puede apreciarse que se evidencian datos atipicos. Lo anterior se explica en función de que no habría una unica fuente de sonido (la voz del profesor), si no que a su vez habían ruidos externos que afectaron el experimento (dado que el interes eran los niveles de sonido de una unica fuente y su cambio con la distancia).
+
+```{r}
+
+with(correla_distancias, plot(distancia,correlacion, 
+                       xlim = c(-0.1,500),
+                       ylim = c(-0.2,1)))
+
+```

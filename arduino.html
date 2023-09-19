@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="John Erick Castro">
+
+<title>analisis_datos_experimentales_arduino</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="arduino_files/libs/clipboard/clipboard.min.js"></script>
+<script src="arduino_files/libs/quarto-html/quarto.js"></script>
+<script src="arduino_files/libs/quarto-html/popper.min.js"></script>
+<script src="arduino_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="arduino_files/libs/quarto-html/anchor.min.js"></script>
+<link href="arduino_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="arduino_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="arduino_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="arduino_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="arduino_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">analisis_datos_experimentales_arduino</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>John Erick Castro </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cargamos los datos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>camilo<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"camilo.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>jhon_erick<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"jhon_erick.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>juan_felipe<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"juan_felipe.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>july_andrea<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"july_andrea.csv"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>kenneth<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"kenneth.csv"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>laura_1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"laura_1.csv"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>laura_2<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"laura_2.csv"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sebastian<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"sebastian.csv"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>valentina_1<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"Valentina_1.csv"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>esteban<span class="ot">&lt;-</span><span class="fu">read.csv2</span>(<span class="st">"esteban.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exploramos uno de los datos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(camilo, <span class="at">type=</span><span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="arduino_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>camilo<span class="sc">$</span>timestamp[<span class="fu">nrow</span>(camilo)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.661949e+12</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>camilo<span class="sc">$</span>timestamp[<span class="fu">nrow</span>(camilo)] <span class="sc">-</span> camilo<span class="sc">$</span>timestamp[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 869172</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(camilo<span class="sc">$</span>timestamp[<span class="fu">nrow</span>(camilo)]<span class="sc">-</span>camilo<span class="sc">$</span>timestamp[<span class="dv">1</span>])<span class="sc">/</span><span class="dv">60000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14.4862</code></pre>
+</div>
+</div>
+<p>Exploramos la distribución de los datos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(camilo<span class="sc">$</span>DecibelSource)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="arduino_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(camilo, <span class="fu">plot</span>(timestamp, DecibelSource, <span class="at">type =</span> <span class="st">"l"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="arduino_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Cargamos las coordenadas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>coordenadas<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"coordenadas (2).csv"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coordenadas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Nombre" "x"      "y"     </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>coordenadas<span class="sc">$</span>y<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, coordenadas<span class="sc">$</span>y))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>coordenadas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Nombre   x     y
+1    Sebastián 164  46.0
+2      Esteban 397  14.0
+3   John Erick 267  88.0
+4  July Andrea  61  40.0
+5       Camilo  60  69.0
+6      Kenneth 500  63.0
+7      Laura 1 202  81.0
+8      Laura 2 141  80.0
+9  Juan Felipe 179  29.0
+10 Valentina 1 401 113.5</code></pre>
+</div>
+</div>
+<p>Graficamos las coordenadas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(coordenadas, <span class="fu">plot</span>(x,y, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">600</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">120</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">"n"</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(coordenadas, <span class="fu">text</span>(x,y, <span class="at">labels =</span> Nombre))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="arduino_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>como la función dist dá media matriz, entonces generamos la matriz completa y la convertimos a dataframe. LO primero se hace con la librería “reshape2”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span><span class="fu">dist</span>(coordenadas[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span><span class="fu">melt</span>(<span class="fu">as.matrix</span>(distancias), <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Name1"</span>, <span class="st">"Name2"</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(distancias)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Name1 Name2     value
+1       1     1   0.00000
+2       2     1 235.18716
+3       3     1 111.23399
+4       4     1 103.17461
+5       5     1 106.51291
+6       6     1 336.42978
+7       7     1  51.66237
+8       8     1  41.04875
+9       9     1  22.67157
+10     10     1 246.42494
+11      1     2 235.18716
+12      2     2   0.00000
+13      3     2 149.58610
+14      4     2 337.00445
+15      5     2 341.45864
+16      6     2 114.06139
+17      7     2 206.18923
+18      8     2 264.37095
+19      9     2 218.51545
+20     10     2  99.58037
+21      1     3 111.23399
+22      2     3 149.58610
+23      3     3   0.00000
+24      4     3 211.51832
+25      5     3 207.87015
+26      6     3 234.33736
+27      7     3  65.37584
+28      8     3 126.25371
+29      9     3 105.94810
+30     10     3 136.40473
+31      1     4 103.17461
+32      2     4 337.00445
+33      3     4 211.51832
+34      4     4   0.00000
+35      5     4  29.01724
+36      6     4 439.60209
+37      7     4 146.84005
+38      8     4  89.44272
+39      9     4 118.51160
+40     10     4 347.85378
+41      1     5 106.51291
+42      2     5 341.45864
+43      3     5 207.87015
+44      4     5  29.01724
+45      5     5   0.00000
+46      6     5 440.04091
+47      7     5 142.50614
+48      8     5  81.74350
+49      9     5 125.54282
+50     10     5 343.89133
+51      1     6 336.42978
+52      2     6 114.06139
+53      3     6 234.33736
+54      4     6 439.60209
+55      5     6 440.04091
+56      6     6   0.00000
+57      7     6 298.54313
+58      8     6 359.40228
+59      9     6 322.79560
+60     10     6 111.13618
+61      1     7  51.66237
+62      2     7 206.18923
+63      3     7  65.37584
+64      4     7 146.84005
+65      5     7 142.50614
+66      6     7 298.54313
+67      7     7   0.00000
+68      8     7  61.00820
+69      9     7  56.85948
+70     10     7 201.63643
+71      1     8  41.04875
+72      2     8 264.37095
+73      3     8 126.25371
+74      4     8  89.44272
+75      5     8  81.74350
+76      6     8 359.40228
+77      7     8  61.00820
+78      8     8   0.00000
+79      9     8  63.60031
+80     10     8 262.14929
+81      1     9  22.67157
+82      2     9 218.51545
+83      3     9 105.94810
+84      4     9 118.51160
+85      5     9 125.54282
+86      6     9 322.79560
+87      7     9  56.85948
+88      8     9  63.60031
+89      9     9   0.00000
+90     10     9 237.53789
+91      1    10 246.42494
+92      2    10  99.58037
+93      3    10 136.40473
+94      4    10 347.85378
+95      5    10 343.89133
+96      6    10 111.13618
+97      7    10 201.63643
+98      8    10 262.14929
+99      9    10 237.53789
+100    10    10   0.00000</code></pre>
+</div>
+</div>
+<p>dado que se generó a partir de la matriz de distancias un data frame con combinaciones repetidas, entones mediante la función “unique” generamos una unica combinación de filas (argumento 1) de manera ordenada con el argumento “sort”. POsteriormente se renombran las columnas. Dado que en la combinación se incluyó el cero, tambien se eliminó generando un subset de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>distancias <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">t</span>(<span class="fu">apply</span>(distancias, <span class="dv">1</span>, sort)))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1] [,2]      [,3]
+ [1,]    0    1   1.00000
+ [2,]    1    2 235.18716
+ [3,]    1    3 111.23399
+ [4,]    1    4 103.17461
+ [5,]    1    5 106.51291
+ [6,]    1    6 336.42978
+ [7,]    1    7  51.66237
+ [8,]    1    8  41.04875
+ [9,]    1    9  22.67157
+[10,]    1   10 246.42494
+[11,]    0    2   2.00000
+[12,]    2    3 149.58610
+[13,]    2    4 337.00445
+[14,]    2    5 341.45864
+[15,]    2    6 114.06139
+[16,]    2    7 206.18923
+[17,]    2    8 264.37095
+[18,]    2    9 218.51545
+[19,]    2   10  99.58037
+[20,]    0    3   3.00000
+[21,]    3    4 211.51832
+[22,]    3    5 207.87015
+[23,]    3    6 234.33736
+[24,]    3    7  65.37584
+[25,]    3    8 126.25371
+[26,]    3    9 105.94810
+[27,]    3   10 136.40473
+[28,]    0    4   4.00000
+[29,]    4    5  29.01724
+[30,]    4    6 439.60209
+[31,]    4    7 146.84005
+[32,]    4    8  89.44272
+[33,]    4    9 118.51160
+[34,]    4   10 347.85378
+[35,]    0    5   5.00000
+[36,]    5    6 440.04091
+[37,]    5    7 142.50614
+[38,]    5    8  81.74350
+[39,]    5    9 125.54282
+[40,]    5   10 343.89133
+[41,]    0    6   6.00000
+[42,]    6    7 298.54313
+[43,]    6    8 359.40228
+[44,]    6    9 322.79560
+[45,]    6   10 111.13618
+[46,]    0    7   7.00000
+[47,]    7    8  61.00820
+[48,]    7    9  56.85948
+[49,]    7   10 201.63643
+[50,]    0    8   8.00000
+[51,]    8    9  63.60031
+[52,]    8   10 262.14929
+[53,]    0    9   9.00000
+[54,]    9   10 237.53789
+[55,]    0   10  10.00000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(distancias)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   V1 V2        V3
+1   0  1   1.00000
+2   1  2 235.18716
+3   1  3 111.23399
+4   1  4 103.17461
+5   1  5 106.51291
+6   1  6 336.42978
+7   1  7  51.66237
+8   1  8  41.04875
+9   1  9  22.67157
+10  1 10 246.42494
+11  0  2   2.00000
+12  2  3 149.58610
+13  2  4 337.00445
+14  2  5 341.45864
+15  2  6 114.06139
+16  2  7 206.18923
+17  2  8 264.37095
+18  2  9 218.51545
+19  2 10  99.58037
+20  0  3   3.00000
+21  3  4 211.51832
+22  3  5 207.87015
+23  3  6 234.33736
+24  3  7  65.37584
+25  3  8 126.25371
+26  3  9 105.94810
+27  3 10 136.40473
+28  0  4   4.00000
+29  4  5  29.01724
+30  4  6 439.60209
+31  4  7 146.84005
+32  4  8  89.44272
+33  4  9 118.51160
+34  4 10 347.85378
+35  0  5   5.00000
+36  5  6 440.04091
+37  5  7 142.50614
+38  5  8  81.74350
+39  5  9 125.54282
+40  5 10 343.89133
+41  0  6   6.00000
+42  6  7 298.54313
+43  6  8 359.40228
+44  6  9 322.79560
+45  6 10 111.13618
+46  0  7   7.00000
+47  7  8  61.00820
+48  7  9  56.85948
+49  7 10 201.63643
+50  0  8   8.00000
+51  8  9  63.60031
+52  8 10 262.14929
+53  0  9   9.00000
+54  9 10 237.53789
+55  0 10  10.00000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(distancias)[<span class="dv">2</span>]<span class="ot">=</span><span class="st">"Name2"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(distancias)[<span class="dv">1</span>]<span class="ot">=</span><span class="st">"Name1"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(distancias)[<span class="dv">3</span>]<span class="ot">=</span><span class="st">"distancia"</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span>distancias[<span class="sc">-</span><span class="dv">1</span>,]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="do">##eliminamos los ceros generados </span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span><span class="fu">subset</span>(distancias, Name1<span class="sc">!=</span><span class="dv">0</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Name1 Name2 distancia
+2      1     2 235.18716
+3      1     3 111.23399
+4      1     4 103.17461
+5      1     5 106.51291
+6      1     6 336.42978
+7      1     7  51.66237
+8      1     8  41.04875
+9      1     9  22.67157
+10     1    10 246.42494
+12     2     3 149.58610
+13     2     4 337.00445
+14     2     5 341.45864
+15     2     6 114.06139
+16     2     7 206.18923
+17     2     8 264.37095
+18     2     9 218.51545
+19     2    10  99.58037
+21     3     4 211.51832
+22     3     5 207.87015
+23     3     6 234.33736
+24     3     7  65.37584
+25     3     8 126.25371
+26     3     9 105.94810
+27     3    10 136.40473
+29     4     5  29.01724
+30     4     6 439.60209
+31     4     7 146.84005
+32     4     8  89.44272
+33     4     9 118.51160
+34     4    10 347.85378
+36     5     6 440.04091
+37     5     7 142.50614
+38     5     8  81.74350
+39     5     9 125.54282
+40     5    10 343.89133
+42     6     7 298.54313
+43     6     8 359.40228
+44     6     9 322.79560
+45     6    10 111.13618
+47     7     8  61.00820
+48     7     9  56.85948
+49     7    10 201.63643
+51     8     9  63.60031
+52     8    10 262.14929
+54     9    10 237.53789</code></pre>
+</div>
+</div>
+<p>Dado que en la generación de la matriz los items quedaron como número, entonces se convierte a caracter y se reasigna el nombre correspondiente a cada número, ya que cada número corresponde al item organizado dentro del dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1<span class="ot">&lt;-</span><span class="fu">as.character</span>(distancias<span class="sc">$</span>Name1)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2<span class="ot">&lt;-</span><span class="fu">as.character</span>(distancias<span class="sc">$</span>Name2)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"1"</span>]<span class="ot">&lt;-</span><span class="st">"sebastian"</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"2"</span>]<span class="ot">&lt;-</span><span class="st">"Esteban"</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"3"</span>]<span class="ot">&lt;-</span><span class="st">"Jhon_erick"</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"4"</span>]<span class="ot">&lt;-</span><span class="st">"july_andrea"</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"5"</span>]<span class="ot">&lt;-</span><span class="st">"camilo"</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"6"</span>]<span class="ot">&lt;-</span><span class="st">"kenneth"</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"7"</span>]<span class="ot">&lt;-</span><span class="st">"laura_1"</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"8"</span>]<span class="ot">&lt;-</span><span class="st">"laura2"</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"9"</span>]<span class="ot">&lt;-</span><span class="st">"juan_felipe"</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name1[distancias<span class="sc">$</span>Name1 <span class="sc">==</span><span class="st">"10"</span>]<span class="ot">&lt;-</span><span class="st">"valentina_1"</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"1"</span>]<span class="ot">&lt;-</span><span class="st">"sebastian"</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"2"</span>]<span class="ot">&lt;-</span><span class="st">"Esteban"</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"3"</span>]<span class="ot">&lt;-</span><span class="st">"Jhon_erick"</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"4"</span>]<span class="ot">&lt;-</span><span class="st">"july_andrea"</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"5"</span>]<span class="ot">&lt;-</span><span class="st">"camilo"</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"6"</span>]<span class="ot">&lt;-</span><span class="st">"kenneth"</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"7"</span>]<span class="ot">&lt;-</span><span class="st">"laura_1"</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"8"</span>]<span class="ot">&lt;-</span><span class="st">"laura2"</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"9"</span>]<span class="ot">&lt;-</span><span class="st">"juan_felipe"</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>distancias<span class="sc">$</span>Name2[distancias<span class="sc">$</span>Name2 <span class="sc">==</span><span class="st">"10"</span>]<span class="ot">&lt;-</span><span class="st">"valentina_1"</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Name1       Name2 distancia
+2    sebastian     Esteban 235.18716
+3    sebastian  Jhon_erick 111.23399
+4    sebastian july_andrea 103.17461
+5    sebastian      camilo 106.51291
+6    sebastian     kenneth 336.42978
+7    sebastian     laura_1  51.66237
+8    sebastian      laura2  41.04875
+9    sebastian juan_felipe  22.67157
+10   sebastian valentina_1 246.42494
+12     Esteban  Jhon_erick 149.58610
+13     Esteban july_andrea 337.00445
+14     Esteban      camilo 341.45864
+15     Esteban     kenneth 114.06139
+16     Esteban     laura_1 206.18923
+17     Esteban      laura2 264.37095
+18     Esteban juan_felipe 218.51545
+19     Esteban valentina_1  99.58037
+21  Jhon_erick july_andrea 211.51832
+22  Jhon_erick      camilo 207.87015
+23  Jhon_erick     kenneth 234.33736
+24  Jhon_erick     laura_1  65.37584
+25  Jhon_erick      laura2 126.25371
+26  Jhon_erick juan_felipe 105.94810
+27  Jhon_erick valentina_1 136.40473
+29 july_andrea      camilo  29.01724
+30 july_andrea     kenneth 439.60209
+31 july_andrea     laura_1 146.84005
+32 july_andrea      laura2  89.44272
+33 july_andrea juan_felipe 118.51160
+34 july_andrea valentina_1 347.85378
+36      camilo     kenneth 440.04091
+37      camilo     laura_1 142.50614
+38      camilo      laura2  81.74350
+39      camilo juan_felipe 125.54282
+40      camilo valentina_1 343.89133
+42     kenneth     laura_1 298.54313
+43     kenneth      laura2 359.40228
+44     kenneth juan_felipe 322.79560
+45     kenneth valentina_1 111.13618
+47     laura_1      laura2  61.00820
+48     laura_1 juan_felipe  56.85948
+49     laura_1 valentina_1 201.63643
+51      laura2 juan_felipe  63.60031
+52      laura2 valentina_1 262.14929
+54 juan_felipe valentina_1 237.53789</code></pre>
+</div>
+</div>
+<p>Eliminamos las milesimas de segundos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>camilo<span class="ot">&lt;-</span>camilo <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>jhon_erick<span class="ot">&lt;-</span>jhon_erick <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>juan_felipe<span class="ot">&lt;-</span>juan_felipe <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>july_andrea<span class="ot">&lt;-</span>july_andrea<span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span><span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>kenneth<span class="ot">&lt;-</span>kenneth <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>laura_1<span class="ot">&lt;-</span>laura_1 <span class="sc">%&gt;%</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>laura_2<span class="ot">&lt;-</span>laura_2 <span class="sc">%&gt;%</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>sebastian<span class="ot">&lt;-</span>sebastian <span class="sc">%&gt;%</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>valentina_1<span class="ot">&lt;-</span>valentina_1 <span class="sc">%&gt;%</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>esteban<span class="ot">&lt;-</span>esteban <span class="sc">%&gt;%</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp1 =</span> <span class="fu">trunc</span>(timestamp<span class="sc">/</span><span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(camilo<span class="sc">$</span>timestamp1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 737</code></pre>
+</div>
+</div>
+<p>generamos la columna de fecha en formato fecha y hora</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>camilo1<span class="ot">&lt;-</span> camilo <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">camilo =</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm=</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>jhon_erick1<span class="ot">&lt;-</span>jhon_erick <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">jhon_erick =</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>juan_felipe1<span class="ot">&lt;-</span>juan_felipe <span class="sc">%&gt;%</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">juan_felipe =</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>july_andrea1<span class="ot">&lt;-</span>july_andrea <span class="sc">%&gt;%</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">july_andrea =</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>kenneth1<span class="ot">&lt;-</span>kenneth <span class="sc">%&gt;%</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">kenneth=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>laura_11<span class="ot">&lt;-</span>laura_1 <span class="sc">%&gt;%</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">laura_1=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>laura22<span class="ot">&lt;-</span>laura_2 <span class="sc">%&gt;%</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">laura2=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>sebastian1<span class="ot">&lt;-</span>sebastian <span class="sc">%&gt;%</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sebastian=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>valentina11<span class="ot">&lt;-</span>valentina_1 <span class="sc">%&gt;%</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">valentina_1=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>))</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>esteban1<span class="ot">&lt;-</span>esteban <span class="sc">%&gt;%</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(timestamp1) <span class="sc">%&gt;%</span></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">esteban=</span> <span class="fu">mean</span>(DecibelSource, <span class="at">na.rm =</span><span class="cn">TRUE</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fecha=</span><span class="fu">as.POSIXct</span>(timestamp1, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Unificamos todas las bases de datos a partir de la fecha</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>total<span class="ot">&lt;-</span>camilo1<span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(valentina11)<span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(kenneth1)<span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(juan_felipe1)<span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sebastian1)<span class="sc">%&gt;%</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(laura_11)<span class="sc">%&gt;%</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(laura22)<span class="sc">%&gt;%</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(july_andrea1)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 551 × 10
+   timestamp1 camilo fecha               valen…¹ kenneth juan_…² sebas…³ laura_1
+        &lt;dbl&gt;  &lt;dbl&gt; &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 1661947755   22.6 2022-08-31 07:09:15    50.2    32.0    28.9    31.6    42.5
+ 2 1661947756   22.1 2022-08-31 07:09:16    33.1    30.7    11.0    25.0    35.1
+ 3 1661947757   30.8 2022-08-31 07:09:17    37.5    47.1    10.7    51.7    35.4
+ 4 1661947758   37.6 2022-08-31 07:09:18    35.5    43.2    23.4    42.7    51.6
+ 5 1661947759   31.3 2022-08-31 07:09:19    51.5    42.8    37.6    34.7    46.2
+ 6 1661947760   28.8 2022-08-31 07:09:20    40.5    41.5    26.9    30.9    41.9
+ 7 1661947761   24.3 2022-08-31 07:09:21    33.7    35.7    31.2    32.1    43.0
+ 8 1661947762   31.1 2022-08-31 07:09:22    36.9    34.0    18.8    34.6    40.3
+ 9 1661947763   32.7 2022-08-31 07:09:23    39.5    41.9    14.8    46.3    39.8
+10 1661947764   37.8 2022-08-31 07:09:24    45.7    39.1    23.5    31.5    50.4
+# … with 541 more rows, 2 more variables: laura2 &lt;dbl&gt;, july_andrea &lt;dbl&gt;, and
+#   abbreviated variable names ¹​valentina_1, ²​juan_felipe, ³​sebastian
+# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>total<span class="ot">&lt;-</span>total[, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>total </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 551 × 10
+   timestamp1 fecha               camilo valen…¹ kenneth juan_…² sebas…³ laura_1
+        &lt;dbl&gt; &lt;dttm&gt;               &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 1661947755 2022-08-31 07:09:15   22.6    50.2    32.0    28.9    31.6    42.5
+ 2 1661947756 2022-08-31 07:09:16   22.1    33.1    30.7    11.0    25.0    35.1
+ 3 1661947757 2022-08-31 07:09:17   30.8    37.5    47.1    10.7    51.7    35.4
+ 4 1661947758 2022-08-31 07:09:18   37.6    35.5    43.2    23.4    42.7    51.6
+ 5 1661947759 2022-08-31 07:09:19   31.3    51.5    42.8    37.6    34.7    46.2
+ 6 1661947760 2022-08-31 07:09:20   28.8    40.5    41.5    26.9    30.9    41.9
+ 7 1661947761 2022-08-31 07:09:21   24.3    33.7    35.7    31.2    32.1    43.0
+ 8 1661947762 2022-08-31 07:09:22   31.1    36.9    34.0    18.8    34.6    40.3
+ 9 1661947763 2022-08-31 07:09:23   32.7    39.5    41.9    14.8    46.3    39.8
+10 1661947764 2022-08-31 07:09:24   37.8    45.7    39.1    23.5    31.5    50.4
+# … with 541 more rows, 2 more variables: laura2 &lt;dbl&gt;, july_andrea &lt;dbl&gt;, and
+#   abbreviated variable names ¹​valentina_1, ²​juan_felipe, ³​sebastian
+# ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>correla<span class="ot">&lt;-</span><span class="fu">cor</span>(total[, <span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>])</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>correla</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 camilo valentina_1    kenneth juan_felipe   sebastian
+camilo       1.00000000  0.25045969 0.17643779 -0.05381136  0.13138569
+valentina_1  0.25045969  1.00000000 0.06956460 -0.02365206  0.04276912
+kenneth      0.17643779  0.06956460 1.00000000  0.03909142  0.79508422
+juan_felipe -0.05381136 -0.02365206 0.03909142  1.00000000 -0.14706071
+sebastian    0.13138569  0.04276912 0.79508422 -0.14706071  1.00000000
+laura_1      0.10639811 -0.01351914 0.21748105  0.53671323  0.02685449
+laura2       0.35422445  0.38123098 0.28528940  0.02441829  0.18162917
+july_andrea  0.11479718  0.03658782 0.79127668 -0.02616454  0.80891785
+                laura_1     laura2 july_andrea
+camilo       0.10639811 0.35422445  0.11479718
+valentina_1 -0.01351914 0.38123098  0.03658782
+kenneth      0.21748105 0.28528940  0.79127668
+juan_felipe  0.53671323 0.02441829 -0.02616454
+sebastian    0.02685449 0.18162917  0.80891785
+laura_1      1.00000000 0.14687957  0.07820671
+laura2       0.14687957 1.00000000  0.20687115
+july_andrea  0.07820671 0.20687115  1.00000000</code></pre>
+</div>
+</div>
+<p>Al igual que la matriz de distancias, convertimos la matriz de correlación como matriz (por defecto la convirtió a dataframee)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>correla<span class="ot">&lt;-</span><span class="fu">melt</span>(<span class="fu">as.matrix</span>(correla), <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Name1"</span>, <span class="st">"Name2"</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>correla<span class="sc">$</span>Name1<span class="ot">&lt;-</span><span class="fu">as.character</span>(correla<span class="sc">$</span>Name1)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>correla<span class="sc">$</span>Name2<span class="ot">&lt;-</span><span class="fu">as.character</span>(correla<span class="sc">$</span>Name2)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>correla</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Name1       Name2       value
+1       camilo      camilo  1.00000000
+2  valentina_1      camilo  0.25045969
+3      kenneth      camilo  0.17643779
+4  juan_felipe      camilo -0.05381136
+5    sebastian      camilo  0.13138569
+6      laura_1      camilo  0.10639811
+7       laura2      camilo  0.35422445
+8  july_andrea      camilo  0.11479718
+9       camilo valentina_1  0.25045969
+10 valentina_1 valentina_1  1.00000000
+11     kenneth valentina_1  0.06956460
+12 juan_felipe valentina_1 -0.02365206
+13   sebastian valentina_1  0.04276912
+14     laura_1 valentina_1 -0.01351914
+15      laura2 valentina_1  0.38123098
+16 july_andrea valentina_1  0.03658782
+17      camilo     kenneth  0.17643779
+18 valentina_1     kenneth  0.06956460
+19     kenneth     kenneth  1.00000000
+20 juan_felipe     kenneth  0.03909142
+21   sebastian     kenneth  0.79508422
+22     laura_1     kenneth  0.21748105
+23      laura2     kenneth  0.28528940
+24 july_andrea     kenneth  0.79127668
+25      camilo juan_felipe -0.05381136
+26 valentina_1 juan_felipe -0.02365206
+27     kenneth juan_felipe  0.03909142
+28 juan_felipe juan_felipe  1.00000000
+29   sebastian juan_felipe -0.14706071
+30     laura_1 juan_felipe  0.53671323
+31      laura2 juan_felipe  0.02441829
+32 july_andrea juan_felipe -0.02616454
+33      camilo   sebastian  0.13138569
+34 valentina_1   sebastian  0.04276912
+35     kenneth   sebastian  0.79508422
+36 juan_felipe   sebastian -0.14706071
+37   sebastian   sebastian  1.00000000
+38     laura_1   sebastian  0.02685449
+39      laura2   sebastian  0.18162917
+40 july_andrea   sebastian  0.80891785
+41      camilo     laura_1  0.10639811
+42 valentina_1     laura_1 -0.01351914
+43     kenneth     laura_1  0.21748105
+44 juan_felipe     laura_1  0.53671323
+45   sebastian     laura_1  0.02685449
+46     laura_1     laura_1  1.00000000
+47      laura2     laura_1  0.14687957
+48 july_andrea     laura_1  0.07820671
+49      camilo      laura2  0.35422445
+50 valentina_1      laura2  0.38123098
+51     kenneth      laura2  0.28528940
+52 juan_felipe      laura2  0.02441829
+53   sebastian      laura2  0.18162917
+54     laura_1      laura2  0.14687957
+55      laura2      laura2  1.00000000
+56 july_andrea      laura2  0.20687115
+57      camilo july_andrea  0.11479718
+58 valentina_1 july_andrea  0.03658782
+59     kenneth july_andrea  0.79127668
+60 juan_felipe july_andrea -0.02616454
+61   sebastian july_andrea  0.80891785
+62     laura_1 july_andrea  0.07820671
+63      laura2 july_andrea  0.20687115
+64 july_andrea july_andrea  1.00000000</code></pre>
+</div>
+</div>
+<p>Unimos los nombres en la medida que índiquen la interacción entre si (cabe resaltar que quedan los items, es decir los nombres repetidos que más adelante se eliminarań cuando se únifiquen la matriz de distancias y de correlación)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>correla<span class="ot">&lt;-</span>correla<span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">'par_nombres'</span>, Name1<span class="sc">:</span>Name2, <span class="at">remove =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>correla</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               par_nombres       Name1       Name2       value
+1            camilo_camilo      camilo      camilo  1.00000000
+2       valentina_1_camilo valentina_1      camilo  0.25045969
+3           kenneth_camilo     kenneth      camilo  0.17643779
+4       juan_felipe_camilo juan_felipe      camilo -0.05381136
+5         sebastian_camilo   sebastian      camilo  0.13138569
+6           laura_1_camilo     laura_1      camilo  0.10639811
+7            laura2_camilo      laura2      camilo  0.35422445
+8       july_andrea_camilo july_andrea      camilo  0.11479718
+9       camilo_valentina_1      camilo valentina_1  0.25045969
+10 valentina_1_valentina_1 valentina_1 valentina_1  1.00000000
+11     kenneth_valentina_1     kenneth valentina_1  0.06956460
+12 juan_felipe_valentina_1 juan_felipe valentina_1 -0.02365206
+13   sebastian_valentina_1   sebastian valentina_1  0.04276912
+14     laura_1_valentina_1     laura_1 valentina_1 -0.01351914
+15      laura2_valentina_1      laura2 valentina_1  0.38123098
+16 july_andrea_valentina_1 july_andrea valentina_1  0.03658782
+17          camilo_kenneth      camilo     kenneth  0.17643779
+18     valentina_1_kenneth valentina_1     kenneth  0.06956460
+19         kenneth_kenneth     kenneth     kenneth  1.00000000
+20     juan_felipe_kenneth juan_felipe     kenneth  0.03909142
+21       sebastian_kenneth   sebastian     kenneth  0.79508422
+22         laura_1_kenneth     laura_1     kenneth  0.21748105
+23          laura2_kenneth      laura2     kenneth  0.28528940
+24     july_andrea_kenneth july_andrea     kenneth  0.79127668
+25      camilo_juan_felipe      camilo juan_felipe -0.05381136
+26 valentina_1_juan_felipe valentina_1 juan_felipe -0.02365206
+27     kenneth_juan_felipe     kenneth juan_felipe  0.03909142
+28 juan_felipe_juan_felipe juan_felipe juan_felipe  1.00000000
+29   sebastian_juan_felipe   sebastian juan_felipe -0.14706071
+30     laura_1_juan_felipe     laura_1 juan_felipe  0.53671323
+31      laura2_juan_felipe      laura2 juan_felipe  0.02441829
+32 july_andrea_juan_felipe july_andrea juan_felipe -0.02616454
+33        camilo_sebastian      camilo   sebastian  0.13138569
+34   valentina_1_sebastian valentina_1   sebastian  0.04276912
+35       kenneth_sebastian     kenneth   sebastian  0.79508422
+36   juan_felipe_sebastian juan_felipe   sebastian -0.14706071
+37     sebastian_sebastian   sebastian   sebastian  1.00000000
+38       laura_1_sebastian     laura_1   sebastian  0.02685449
+39        laura2_sebastian      laura2   sebastian  0.18162917
+40   july_andrea_sebastian july_andrea   sebastian  0.80891785
+41          camilo_laura_1      camilo     laura_1  0.10639811
+42     valentina_1_laura_1 valentina_1     laura_1 -0.01351914
+43         kenneth_laura_1     kenneth     laura_1  0.21748105
+44     juan_felipe_laura_1 juan_felipe     laura_1  0.53671323
+45       sebastian_laura_1   sebastian     laura_1  0.02685449
+46         laura_1_laura_1     laura_1     laura_1  1.00000000
+47          laura2_laura_1      laura2     laura_1  0.14687957
+48     july_andrea_laura_1 july_andrea     laura_1  0.07820671
+49           camilo_laura2      camilo      laura2  0.35422445
+50      valentina_1_laura2 valentina_1      laura2  0.38123098
+51          kenneth_laura2     kenneth      laura2  0.28528940
+52      juan_felipe_laura2 juan_felipe      laura2  0.02441829
+53        sebastian_laura2   sebastian      laura2  0.18162917
+54          laura_1_laura2     laura_1      laura2  0.14687957
+55           laura2_laura2      laura2      laura2  1.00000000
+56      july_andrea_laura2 july_andrea      laura2  0.20687115
+57      camilo_july_andrea      camilo july_andrea  0.11479718
+58 valentina_1_july_andrea valentina_1 july_andrea  0.03658782
+59     kenneth_july_andrea     kenneth july_andrea  0.79127668
+60 juan_felipe_july_andrea juan_felipe july_andrea -0.02616454
+61   sebastian_july_andrea   sebastian july_andrea  0.80891785
+62     laura_1_july_andrea     laura_1 july_andrea  0.07820671
+63      laura2_july_andrea      laura2 july_andrea  0.20687115
+64 july_andrea_july_andrea july_andrea july_andrea  1.00000000</code></pre>
+</div>
+</div>
+<p>AL igual que en la matriz de correlación, unimos los nombres en la medida de la interacción entre si</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>distancias<span class="ot">&lt;-</span>distancias<span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">'par_nombres'</span>, Name1<span class="sc">:</span>Name2, <span class="at">remove =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               par_nombres       Name1       Name2 distancia
+2        sebastian_Esteban   sebastian     Esteban 235.18716
+3     sebastian_Jhon_erick   sebastian  Jhon_erick 111.23399
+4    sebastian_july_andrea   sebastian july_andrea 103.17461
+5         sebastian_camilo   sebastian      camilo 106.51291
+6        sebastian_kenneth   sebastian     kenneth 336.42978
+7        sebastian_laura_1   sebastian     laura_1  51.66237
+8         sebastian_laura2   sebastian      laura2  41.04875
+9    sebastian_juan_felipe   sebastian juan_felipe  22.67157
+10   sebastian_valentina_1   sebastian valentina_1 246.42494
+12      Esteban_Jhon_erick     Esteban  Jhon_erick 149.58610
+13     Esteban_july_andrea     Esteban july_andrea 337.00445
+14          Esteban_camilo     Esteban      camilo 341.45864
+15         Esteban_kenneth     Esteban     kenneth 114.06139
+16         Esteban_laura_1     Esteban     laura_1 206.18923
+17          Esteban_laura2     Esteban      laura2 264.37095
+18     Esteban_juan_felipe     Esteban juan_felipe 218.51545
+19     Esteban_valentina_1     Esteban valentina_1  99.58037
+21  Jhon_erick_july_andrea  Jhon_erick july_andrea 211.51832
+22       Jhon_erick_camilo  Jhon_erick      camilo 207.87015
+23      Jhon_erick_kenneth  Jhon_erick     kenneth 234.33736
+24      Jhon_erick_laura_1  Jhon_erick     laura_1  65.37584
+25       Jhon_erick_laura2  Jhon_erick      laura2 126.25371
+26  Jhon_erick_juan_felipe  Jhon_erick juan_felipe 105.94810
+27  Jhon_erick_valentina_1  Jhon_erick valentina_1 136.40473
+29      july_andrea_camilo july_andrea      camilo  29.01724
+30     july_andrea_kenneth july_andrea     kenneth 439.60209
+31     july_andrea_laura_1 july_andrea     laura_1 146.84005
+32      july_andrea_laura2 july_andrea      laura2  89.44272
+33 july_andrea_juan_felipe july_andrea juan_felipe 118.51160
+34 july_andrea_valentina_1 july_andrea valentina_1 347.85378
+36          camilo_kenneth      camilo     kenneth 440.04091
+37          camilo_laura_1      camilo     laura_1 142.50614
+38           camilo_laura2      camilo      laura2  81.74350
+39      camilo_juan_felipe      camilo juan_felipe 125.54282
+40      camilo_valentina_1      camilo valentina_1 343.89133
+42         kenneth_laura_1     kenneth     laura_1 298.54313
+43          kenneth_laura2     kenneth      laura2 359.40228
+44     kenneth_juan_felipe     kenneth juan_felipe 322.79560
+45     kenneth_valentina_1     kenneth valentina_1 111.13618
+47          laura_1_laura2     laura_1      laura2  61.00820
+48     laura_1_juan_felipe     laura_1 juan_felipe  56.85948
+49     laura_1_valentina_1     laura_1 valentina_1 201.63643
+51      laura2_juan_felipe      laura2 juan_felipe  63.60031
+52      laura2_valentina_1      laura2 valentina_1 262.14929
+54 juan_felipe_valentina_1 juan_felipe valentina_1 237.53789</code></pre>
+</div>
+</div>
+<p>Unimos las matrices en función de unir los mismos nombres (los cuales son las interacciones entre si)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>correla_distancias<span class="ot">&lt;-</span><span class="fu">merge</span>(<span class="at">x =</span> distancias, <span class="at">y =</span> correla, <span class="at">by =</span> <span class="st">"par_nombres"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>correla_distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               par_nombres     Name1.x     Name2.x distancia     Name1.y
+1       camilo_juan_felipe      camilo juan_felipe 125.54282      camilo
+2           camilo_kenneth      camilo     kenneth 440.04091      camilo
+3           camilo_laura_1      camilo     laura_1 142.50614      camilo
+4            camilo_laura2      camilo      laura2  81.74350      camilo
+5       camilo_valentina_1      camilo valentina_1 343.89133      camilo
+6  juan_felipe_valentina_1 juan_felipe valentina_1 237.53789 juan_felipe
+7       july_andrea_camilo july_andrea      camilo  29.01724 july_andrea
+8  july_andrea_juan_felipe july_andrea juan_felipe 118.51160 july_andrea
+9      july_andrea_kenneth july_andrea     kenneth 439.60209 july_andrea
+10     july_andrea_laura_1 july_andrea     laura_1 146.84005 july_andrea
+11      july_andrea_laura2 july_andrea      laura2  89.44272 july_andrea
+12 july_andrea_valentina_1 july_andrea valentina_1 347.85378 july_andrea
+13     kenneth_juan_felipe     kenneth juan_felipe 322.79560     kenneth
+14         kenneth_laura_1     kenneth     laura_1 298.54313     kenneth
+15          kenneth_laura2     kenneth      laura2 359.40228     kenneth
+16     kenneth_valentina_1     kenneth valentina_1 111.13618     kenneth
+17     laura_1_juan_felipe     laura_1 juan_felipe  56.85948     laura_1
+18          laura_1_laura2     laura_1      laura2  61.00820     laura_1
+19     laura_1_valentina_1     laura_1 valentina_1 201.63643     laura_1
+20      laura2_juan_felipe      laura2 juan_felipe  63.60031      laura2
+21      laura2_valentina_1      laura2 valentina_1 262.14929      laura2
+22        sebastian_camilo   sebastian      camilo 106.51291   sebastian
+23   sebastian_juan_felipe   sebastian juan_felipe  22.67157   sebastian
+24   sebastian_july_andrea   sebastian july_andrea 103.17461   sebastian
+25       sebastian_kenneth   sebastian     kenneth 336.42978   sebastian
+26       sebastian_laura_1   sebastian     laura_1  51.66237   sebastian
+27        sebastian_laura2   sebastian      laura2  41.04875   sebastian
+28   sebastian_valentina_1   sebastian valentina_1 246.42494   sebastian
+       Name2.y       value
+1  juan_felipe -0.05381136
+2      kenneth  0.17643779
+3      laura_1  0.10639811
+4       laura2  0.35422445
+5  valentina_1  0.25045969
+6  valentina_1 -0.02365206
+7       camilo  0.11479718
+8  juan_felipe -0.02616454
+9      kenneth  0.79127668
+10     laura_1  0.07820671
+11      laura2  0.20687115
+12 valentina_1  0.03658782
+13 juan_felipe  0.03909142
+14     laura_1  0.21748105
+15      laura2  0.28528940
+16 valentina_1  0.06956460
+17 juan_felipe  0.53671323
+18      laura2  0.14687957
+19 valentina_1 -0.01351914
+20 juan_felipe  0.02441829
+21 valentina_1  0.38123098
+22      camilo  0.13138569
+23 juan_felipe -0.14706071
+24 july_andrea  0.80891785
+25     kenneth  0.79508422
+26     laura_1  0.02685449
+27      laura2  0.18162917
+28 valentina_1  0.04276912</code></pre>
+</div>
+</div>
+<p>ELiminamos las columnas de más que se generaron en la unión (merge)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>correla_distancias<span class="ot">&lt;-</span>correla_distancias[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>correla_distancias</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               par_nombres distancia       value
+1       camilo_juan_felipe 125.54282 -0.05381136
+2           camilo_kenneth 440.04091  0.17643779
+3           camilo_laura_1 142.50614  0.10639811
+4            camilo_laura2  81.74350  0.35422445
+5       camilo_valentina_1 343.89133  0.25045969
+6  juan_felipe_valentina_1 237.53789 -0.02365206
+7       july_andrea_camilo  29.01724  0.11479718
+8  july_andrea_juan_felipe 118.51160 -0.02616454
+9      july_andrea_kenneth 439.60209  0.79127668
+10     july_andrea_laura_1 146.84005  0.07820671
+11      july_andrea_laura2  89.44272  0.20687115
+12 july_andrea_valentina_1 347.85378  0.03658782
+13     kenneth_juan_felipe 322.79560  0.03909142
+14         kenneth_laura_1 298.54313  0.21748105
+15          kenneth_laura2 359.40228  0.28528940
+16     kenneth_valentina_1 111.13618  0.06956460
+17     laura_1_juan_felipe  56.85948  0.53671323
+18          laura_1_laura2  61.00820  0.14687957
+19     laura_1_valentina_1 201.63643 -0.01351914
+20      laura2_juan_felipe  63.60031  0.02441829
+21      laura2_valentina_1 262.14929  0.38123098
+22        sebastian_camilo 106.51291  0.13138569
+23   sebastian_juan_felipe  22.67157 -0.14706071
+24   sebastian_july_andrea 103.17461  0.80891785
+25       sebastian_kenneth 336.42978  0.79508422
+26       sebastian_laura_1  51.66237  0.02685449
+27        sebastian_laura2  41.04875  0.18162917
+28   sebastian_valentina_1 246.42494  0.04276912</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(correla_distancias)[<span class="dv">2</span>]<span class="ot">=</span><span class="st">"distancia"</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(correla_distancias)[<span class="dv">3</span>]<span class="ot">=</span><span class="st">"correlacion"</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>correla_distancias<span class="sc">$</span>distancia<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(correla_distancias<span class="sc">$</span>distancia)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>correla_distancias<span class="sc">$</span>correlacion<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(correla_distancias<span class="sc">$</span>correlacion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finalmente graficamos. De acuerdo con lo observado, se aprecia una tendencia exponencial negativa. Sin embargo, puede apreciarse que se evidencian datos atipicos. Lo anterior se explica en función de que no habría una unica fuente de sonido (la voz del profesor), si no que a su vez habían ruidos externos que afectaron el experimento (dado que el interes eran los niveles de sonido de una unica fuente y su cambio con la distancia).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(correla_distancias, <span class="fu">plot</span>(distancia,correlacion, </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="dv">500</span>),</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.2</span>,<span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="arduino_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
