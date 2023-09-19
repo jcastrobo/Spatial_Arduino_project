@@ -3,10 +3,11 @@ title: "analisis_datos_experimentales_arduino"
 author: "John Erick Castro"
 format: html
 editor: visual
+self-contained: true
 ---
 
 ```{r message=FALSE, warning=FALSE}
-library(tidyverse)
+library(dplyr)
 library(reshape2)
 library(tidyr)
 
