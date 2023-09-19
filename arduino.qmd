@@ -1,7 +1,11 @@
 ---
 title: "analisis_datos_experimentales_arduino"
 author: "John Erick Castro"
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: 'Mostrar codigo'
+    self-contained: true
 editor: visual
 self-contained: true
 ---
